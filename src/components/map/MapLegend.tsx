@@ -43,7 +43,7 @@ export function MapLegend({
             );
           })}
           <li className="flex items-center gap-2 pt-1 text-muted-foreground">
-            <span className="grid size-6 place-items-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+            <span className="grid size-6 place-items-center rounded-full bg-primary text-[13px] font-bold text-primary-foreground">
               3
             </span>
             Cluster of incidents

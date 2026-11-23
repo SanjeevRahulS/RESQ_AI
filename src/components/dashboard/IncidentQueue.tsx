@@ -88,7 +88,7 @@ export function IncidentQueue({ incidents, freshIds, onOpen }: Props) {
                   <span className="flex flex-wrap items-center gap-2">
                     <SeverityBadge severity={i.severity} size="sm" />
                     <StatusBadge status={i.status} />
-                    <span className="ml-auto text-xs text-muted-foreground font-mono">{timeAgo(i.created_at)}</span>
+                    <span className="ml-auto text-xs text-muted-foreground">{timeAgo(i.created_at)}</span>
                   </span>
                   <span className="flex items-center gap-2 font-medium">
                     <IncidentTypeIcon type={i.incident_type} className="size-4 text-muted-foreground" />

@@ -60,7 +60,7 @@ function DashboardPage() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Chennai operations</p>
-          <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Command Dashboard</h1>
+          <h1 className="text-2xl tracking-tight sm:text-3xl">Command Dashboard</h1>
         </div>
         <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
           <UserRound aria-hidden className="size-4" /> Signed in as <span className="font-semibold text-foreground">{user.email}</span>

@@ -68,7 +68,7 @@ export function TeamAccessPanel() {
           <UsersRound aria-hidden className="size-4 text-primary" />
         </span>
         <div className="min-w-0">
-          <h2 id="team-access-heading" className="font-bold tracking-tight">
+          <h2 id="team-access-heading" className="tracking-tight">
             Team access
           </h2>
           <p className="text-sm text-muted-foreground">

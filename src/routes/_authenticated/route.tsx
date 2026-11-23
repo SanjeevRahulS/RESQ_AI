@@ -29,7 +29,7 @@ function StaffGate() {
   return (
     <div className="mx-auto flex max-w-md flex-1 flex-col items-center justify-center gap-4 px-4 py-16 text-center">
       <ShieldAlert aria-hidden className="size-10 text-sev-high" />
-      <h1 className="text-xl font-bold">No command staff access</h1>
+      <h1 className="text-xl">No command staff access</h1>
       <p className="text-sm text-muted-foreground">
         {user.email} is signed in but has not been given the admin or responder role. Ask an admin to grant access.
       </p>

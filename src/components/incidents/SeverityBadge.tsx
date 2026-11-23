@@ -43,7 +43,7 @@ export function SeverityBadge({
     <span
       className={cn(
         "inline-flex shrink-0 items-center gap-1.5 rounded-md border font-semibold uppercase tracking-wide",
-        size === "sm" && "px-1.5 py-0.5 text-[11px]",
+        size === "sm" && "px-1.5 py-0.5 text-[13px]",
         size === "md" && "px-2 py-1 text-xs",
         size === "lg" && "px-3 py-1.5 text-sm",
         SEVERITY_STYLE[severity],

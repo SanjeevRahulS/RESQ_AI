@@ -29,7 +29,7 @@ interface Props {
 function Field({ id, label, children }: { id: string; label: string; children: React.ReactNode }) {
   return (
     <div className="flex min-w-[140px] flex-1 flex-col gap-1">
-      <label htmlFor={id} className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+      <label htmlFor={id} className="text-[13px] font-semibold uppercase tracking-wider text-muted-foreground">
         {label}
       </label>
       {children}

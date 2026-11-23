@@ -9,9 +9,13 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "IBM Plex Serif", ui-serif, Georgia, serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-sans: "Public Sans", "Noto Sans Tamil", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif 4", "Noto Sans Tamil", ui-serif, Georgia, serif;
+  /* Monospace is reserved for tracking codes only. */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* Minimum text size is 13px: the smallest scale step is lifted from 12px. */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.25rem;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -80,7 +84,7 @@
   --secondary: #1f2c3b;
   --secondary-foreground: #e6eaf0;
   --muted: #1c2938;
-  --muted-foreground: #9aa7b5;
+  --muted-foreground: #bac4cf;
   --accent: #1f2c3b;
   --accent-foreground: #e6eaf0;
   --destructive: #c8453f;
@@ -137,10 +141,20 @@
     font-variant-numeric: tabular-nums;
   }
 
-  h1 {
+  /* Page headings only: Source Serif 4 at 600. Everything else uses Public Sans. */
+  h1,
+  h2 {
     font-family: var(--font-serif);
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.005em;
+  }
+
+  button,
+  input,
+  select,
+  textarea,
+  table {
+    font-family: var(--font-sans);
   }
 
   :focus-visible {
@@ -174,6 +188,7 @@
 }
 
 .leaflet-control-attribution {
+  font-size: 13px !important;
   background: rgb(14 22 32 / 85%) !important;
   color: var(--color-muted-foreground) !important;
 }
@@ -256,7 +271,8 @@
 
 /* Small-caps label used for table headers and field labels. */
 @utility label-caps {
-  font-size: 0.6875rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;

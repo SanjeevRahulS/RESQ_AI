@@ -89,12 +89,12 @@ export function ReportForm({ draft, onDraftChange, onSubmit, submitting, submitS
       <section className="space-y-3 rounded-md border bg-surface p-4 sm:p-5">
         <div className="flex flex-wrap items-end justify-between gap-2">
           <div className="flex items-baseline gap-3">
-            <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-sm border border-primary font-mono text-xs text-primary">1</span>
+            <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-sm border border-primary text-xs text-primary">1</span>
             <Label htmlFor="report-text" className="text-base font-semibold">
               Describe what is happening
             </Label>
           </div>
-          <span className="font-mono text-xs text-muted-foreground">{draft.text.length}/5000</span>
+          <span className="text-xs text-muted-foreground">{draft.text.length}/5000</span>
         </div>
         <Textarea
           id="report-text"
@@ -131,8 +131,8 @@ export function ReportForm({ draft, onDraftChange, onSubmit, submitting, submitS
       </section>
       <section className="space-y-3 rounded-md border bg-surface p-4 sm:p-5">
         <div className="flex items-baseline gap-3">
-          <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-sm border border-primary font-mono text-xs text-primary">2</span>
-          <h2 className="text-base font-semibold">Location</h2>
+          <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-sm border border-primary text-xs text-primary">2</span>
+          <h2 className="text-base">Location</h2>
         </div>
         <LocationField
           position={draft.position}
@@ -144,8 +144,8 @@ export function ReportForm({ draft, onDraftChange, onSubmit, submitting, submitS
       </section>
       <section className="space-y-3 rounded-md border bg-surface p-4 sm:p-5">
         <div className="flex items-baseline gap-3">
-          <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-sm border border-primary font-mono text-xs text-primary">3</span>
-          <h2 className="text-base font-semibold">Photos <span className="font-normal text-muted-foreground">(optional)</span></h2>
+          <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-sm border border-primary text-xs text-primary">3</span>
+          <h2 className="text-base">Photos <span className="font-normal text-muted-foreground">(optional)</span></h2>
         </div>
         <PhotoPicker files={draft.photos} onChange={(photos) => set({ photos })} onError={setPhotoError} disabled={submitting} />
         {photoError && (
@@ -156,8 +156,8 @@ export function ReportForm({ draft, onDraftChange, onSubmit, submitting, submitS
       </section>
       <section className="space-y-2 border-t pt-6">
         <div className="flex items-baseline gap-3">
-          <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-sm border border-primary font-mono text-xs text-primary">4</span>
-          <h2 className="text-base font-semibold">Review and send</h2>
+          <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-sm border border-primary text-xs text-primary">4</span>
+          <h2 className="text-base">Review and send</h2>
         </div>
         <p className="text-sm text-muted-foreground">
           After sending, you can check the automated summary of your report and correct it before it reaches responders.

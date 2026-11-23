@@ -93,7 +93,7 @@ export function AdvisoriesPanel() {
           <Megaphone aria-hidden className="size-4 text-primary" />
         </span>
         <div className="min-w-0">
-          <h2 id="advisories-heading" className="font-bold tracking-tight">
+          <h2 id="advisories-heading" className="tracking-tight">
             Public advisories
           </h2>
           <p className="text-sm text-muted-foreground">
@@ -206,7 +206,7 @@ export function AdvisoriesPanel() {
                       <>
                         {" · "}
                         {active ? "until" : "ended"}{" "}
-                        <time className="font-mono">{new Date(a.expires_at).toLocaleString()}</time>
+                        <time>{new Date(a.expires_at).toLocaleString()}</time>
                       </>
                     )}
                   </p>

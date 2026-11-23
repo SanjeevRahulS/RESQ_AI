@@ -16,11 +16,11 @@ export function SeverityChart({ counts }: { counts: Record<Severity, number> }) 
       </h2>
       <ChartContainer config={config} className="mt-3 aspect-auto h-44 w-full" aria-hidden>
         <BarChart data={data} margin={{ left: -20, right: 8, top: 16 }}>
-          <XAxis dataKey="label" tickLine={false} axisLine={false} fontSize={11} interval={0} />
-          <YAxis allowDecimals={false} tickLine={false} axisLine={false} fontSize={11} />
+          <XAxis dataKey="label" tickLine={false} axisLine={false} fontSize={13} interval={0} />
+          <YAxis allowDecimals={false} tickLine={false} axisLine={false} fontSize={13} />
           <ChartTooltip cursor={{ fill: "var(--muted)" }} content={<ChartTooltipContent />} />
           <Bar dataKey="count" radius={[2, 2, 0, 0]}>
-            <LabelList dataKey="count" position="top" fontSize={11} fill="var(--foreground)" />
+            <LabelList dataKey="count" position="top" fontSize={13} fill="var(--foreground)" />
             {data.map((d) => (
               <Cell key={d.severity} fill={SEVERITY_VAR[d.severity]} />
             ))}
@@ -35,7 +35,7 @@ export function SeverityChart({ counts }: { counts: Record<Severity, number> }) 
             <li key={d.severity} className="flex items-center gap-2">
               <Icon aria-hidden className="size-4 shrink-0" style={{ color: SEVERITY_VAR[d.severity] }} />
               <span>{d.label}</span>
-              <span className="ml-auto font-mono tabular-nums">{d.count}</span>
+              <span className="ml-auto tabular-nums">{d.count}</span>
             </li>
           );
         })}

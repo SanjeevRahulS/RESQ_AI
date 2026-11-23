@@ -153,7 +153,7 @@ function TrackResult({
       <dl className="mt-5 grid gap-3 border-t pt-4 text-sm sm:grid-cols-2">
         <div>
           <dt className="label-caps">Last update</dt>
-          <dd className="font-mono">{new Date(result.updatedAt).toLocaleString()}</dd>
+          <dd >{new Date(result.updatedAt).toLocaleString()}</dd>
         </div>
         <div>
           <dt className="label-caps">General area</dt>

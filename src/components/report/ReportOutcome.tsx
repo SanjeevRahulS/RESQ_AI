@@ -27,7 +27,7 @@ export function ReportOutcome({
         <span className="grid size-16 place-items-center rounded-full bg-sev-low/15 text-sev-low">
           <Icon aria-hidden className="size-8" />
         </span>
-        <h2 ref={headingRef} tabIndex={-1} className="text-2xl font-bold tracking-tight outline-none">
+        <h2 ref={headingRef} tabIndex={-1} className="text-2xl tracking-tight outline-none">
           {linked ? "Your report was linked to an existing incident" : "Your report was received"}
         </h2>
         <p className="max-w-md text-muted-foreground">

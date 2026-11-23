@@ -17,7 +17,7 @@ export function AppHeader() {
   const user = useSessionUser();
   const signOut = useSignOut();
   const item =
-    "flex flex-col items-center gap-0.5 rounded-md px-2 py-1.5 text-[11px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground sm:flex-row sm:gap-1.5 sm:px-2.5 sm:py-2 sm:text-sm";
+    "flex flex-col items-center gap-0.5 rounded-md px-2 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground sm:flex-row sm:gap-1.5 sm:px-2.5 sm:py-2 sm:text-sm";
   return (
     <header className="sticky top-0 z-40 border-b bg-background">
       <a
@@ -30,17 +30,17 @@ export function AppHeader() {
         <p className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-x-2 px-3 py-1 text-xs text-muted-foreground sm:px-6">
           <Phone aria-hidden className="size-3 text-primary" />
           <span className="font-semibold text-foreground">Emergency?</span>
-          <a href="tel:112" className="font-mono text-foreground underline-offset-2 hover:underline">Call 112</a>
+          <a href="tel:112" className="text-foreground underline-offset-2 hover:underline">Call 112</a>
           <span aria-hidden>·</span>
-          <a href="tel:108" className="font-mono underline-offset-2 hover:underline">Ambulance 108</a>
+          <a href="tel:108" className="underline-offset-2 hover:underline">Ambulance 108</a>
           <span aria-hidden>·</span>
-          <a href="tel:101" className="font-mono underline-offset-2 hover:underline">Fire 101</a>
+          <a href="tel:101" className="underline-offset-2 hover:underline">Fire 101</a>
         </p>
       </div>
       <div className="mx-auto flex h-14 max-w-[1600px] items-center gap-3 px-3 sm:px-6">
         <Link to="/" className="flex items-center gap-2 rounded-md font-bold tracking-tight">
           <Shield aria-hidden className="size-5 fill-primary text-primary" />
-          <span className="whitespace-nowrap font-serif text-lg font-semibold tracking-wide">RESQ</span>
+          <span className="whitespace-nowrap text-lg font-bold tracking-wide">RESQ</span>
         </Link>
         <nav aria-label="Main" className="ml-auto">
           <ul className="flex items-center gap-1">
@@ -50,7 +50,7 @@ export function AppHeader() {
                   to={to}
                   activeOptions={{ exact: true }}
                   className={cn(
-                    "flex flex-col items-center gap-0.5 rounded-md px-2 py-1.5 text-[11px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground sm:flex-row sm:gap-1.5 sm:px-2.5 sm:py-2 sm:text-sm",
+                    "flex flex-col items-center gap-0.5 rounded-md px-2 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground sm:flex-row sm:gap-1.5 sm:px-2.5 sm:py-2 sm:text-sm",
                   )}
                   activeProps={{ className: "bg-secondary text-foreground shadow-[inset_0_-2px_0_var(--color-primary)]", "aria-current": "page" }}
                 >

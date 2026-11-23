@@ -50,7 +50,7 @@ function LinkedRow({ incident, onOpen }: { incident: Incident; onOpen: () => voi
     <li className="rounded-lg border p-3">
       <div className="flex flex-wrap items-center gap-2">
         <SeverityBadge severity={incident.severity} size="sm" />
-        <span className="text-xs text-muted-foreground font-mono">{timeAgo(incident.created_at)}</span>
+        <span className="text-xs text-muted-foreground">{timeAgo(incident.created_at)}</span>
         {incident.duplicate_similarity != null && (
           <span className="text-xs text-muted-foreground">
             · similarity {Math.round(incident.duplicate_similarity * 100)}%
@@ -208,7 +208,7 @@ export function IncidentDetailSheet({ incidentId, onClose, onOpenIncident }: Pro
                       <dd>
                         <time dateTime={incident.created_at}>{format(new Date(incident.created_at), "d MMM yyyy, HH:mm")}</time>
                       </dd>
-                      <dd className="text-xs text-muted-foreground font-mono">{timeAgo(incident.created_at)}</dd>
+                      <dd className="text-xs text-muted-foreground">{timeAgo(incident.created_at)}</dd>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">

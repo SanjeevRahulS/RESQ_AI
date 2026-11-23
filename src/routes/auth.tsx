@@ -65,7 +65,7 @@ function AuthPage() {
           <LockKeyhole aria-hidden className="size-5 text-primary" />
         </span>
         <div>
-          <h1 className="text-xl font-bold">Command staff sign in</h1>
+          <h1 className="text-xl">Command staff sign in</h1>
           <p className="text-sm text-muted-foreground">Live Map and Command Dashboard are for admins and responders.</p>
         </div>
       </div>

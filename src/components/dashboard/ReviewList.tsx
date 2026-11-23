@@ -16,7 +16,7 @@ function Side({ title, incident }: { title: string; incident: Incident | undefin
         <>
           <div className="flex flex-wrap items-center gap-2">
             <SeverityBadge severity={incident.severity} size="sm" />
-            <span className="text-xs text-muted-foreground font-mono">{timeAgo(incident.created_at)}</span>
+            <span className="text-xs text-muted-foreground">{timeAgo(incident.created_at)}</span>
           </div>
           <p className="text-sm">{incident.summary ?? incident.raw_text}</p>
           <p className="text-xs text-muted-foreground">{incident.address_text ?? "No address"}</p>

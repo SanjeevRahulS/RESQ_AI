@@ -86,7 +86,7 @@ export function FacilitiesPanel() {
           <Building aria-hidden className="size-4 text-primary" />
         </span>
         <div className="min-w-0">
-          <h2 id="facilities-heading" className="font-bold tracking-tight">
+          <h2 id="facilities-heading" className="tracking-tight">
             Shelters and hospitals
           </h2>
           <p className="text-sm text-muted-foreground">
@@ -137,7 +137,6 @@ export function FacilitiesPanel() {
           <Input
             id="fac-lat"
             inputMode="decimal"
-            className="font-mono"
             value={draft.latitude}
             onChange={(e) => setDraft({ ...draft, latitude: e.target.value })}
             placeholder="13.0475"
@@ -150,7 +149,6 @@ export function FacilitiesPanel() {
           <Input
             id="fac-lng"
             inputMode="decimal"
-            className="font-mono"
             value={draft.longitude}
             onChange={(e) => setDraft({ ...draft, longitude: e.target.value })}
             placeholder="80.2397"
@@ -210,7 +208,7 @@ export function FacilitiesPanel() {
                   {f.capacity != null && ` · capacity ${f.capacity}`}
                   {f.contact && ` · ${f.contact}`}
                   {" · "}
-                  <span className="font-mono">
+                  <span>
                     {f.latitude.toFixed(4)}, {f.longitude.toFixed(4)}
                   </span>
                 </p>

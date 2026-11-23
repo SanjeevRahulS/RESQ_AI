@@ -23,7 +23,7 @@ function Card({
         <p className="label-caps">{label}</p>
         <Icon aria-hidden className={cn("size-4", tone)} />
       </div>
-      <p className={cn("mt-1 font-mono text-2xl font-medium tabular-nums", tone)}>{value}</p>
+      <p className={cn("mt-1 text-2xl font-medium tabular-nums", tone)}>{value}</p>
       <p className="mt-1 text-xs text-muted-foreground">{hint}</p>
     </div>
   );

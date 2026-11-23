@@ -78,7 +78,7 @@ export function ConfirmationStep({ aiOk, initial, confirming, error, onConfirm }
 
       <section className="space-y-4 rounded-md border bg-surface p-4 sm:p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 id="confirm-heading" className="flex items-center gap-2 text-lg font-semibold">
+          <h2 id="confirm-heading" className="flex items-center gap-2 text-lg">
             {aiOk ? "Automated summary, verified by staff" : "Report details"}
           </h2>
           <SeverityBadge severity={fields.severity} size="lg" />
