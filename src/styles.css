@@ -1,0 +1,242 @@
+/*
+ * Tailwind v4 entry: config lives here, with no tailwind.config.js or PostCSS plugin.
+ * Keep every @import in this top block. Web fonts load via <link> in src/routes/__root.tsx.
+ */
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-sev-critical: var(--sev-critical);
+  --color-sev-high: var(--sev-high);
+  --color-sev-medium: var(--sev-medium);
+  --color-sev-low: var(--sev-low);
+  --color-sev-unclassified: var(--sev-unclassified);
+  --color-status-new: var(--status-new);
+  --color-status-verified: var(--status-verified);
+  --color-status-dispatched: var(--status-dispatched);
+  --color-status-resolved: var(--status-resolved);
+  --color-status-review: var(--status-review);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* RESQ AI is a single dark command-center theme: :root holds the midnight-navy palette. */
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.186 0.048 268.7); /* #0A1128 */
+  --foreground: oklch(0.944 0.017 271.2); /* #E8ECF8 */
+  --surface: oklch(0.232 0.061 268); /* #111B3A */
+  --surface-raised: oklch(0.265 0.07 267.5);
+  --card: oklch(0.232 0.061 268);
+  --card-foreground: oklch(0.944 0.017 271.2);
+  --popover: oklch(0.232 0.061 268);
+  --popover-foreground: oklch(0.944 0.017 271.2);
+  --primary: oklch(0.8 0.13 215);
+  --primary-foreground: oklch(0.186 0.048 268.7);
+  --secondary: oklch(0.298 0.08 267);
+  --secondary-foreground: oklch(0.944 0.017 271.2);
+  --muted: oklch(0.265 0.07 267.5);
+  --muted-foreground: oklch(0.76 0.035 265);
+  --accent: oklch(0.32 0.085 267);
+  --accent-foreground: oklch(0.944 0.017 271.2);
+  --destructive: oklch(0.68 0.2 25);
+  --destructive-foreground: oklch(0.186 0.048 268.7);
+  --border: oklch(0.298 0.08 267); /* #1B2A55 */
+  --input: oklch(0.345 0.085 267.8);
+  --ring: oklch(0.8 0.13 215);
+
+  --sev-critical: oklch(0.7 0.19 25);
+  --sev-high: oklch(0.76 0.17 50);
+  --sev-medium: oklch(0.87 0.16 92);
+  --sev-low: oklch(0.78 0.17 150);
+  --sev-unclassified: oklch(0.76 0.03 260);
+
+  --status-new: oklch(0.8 0.13 215);
+  --status-verified: oklch(0.78 0.12 290);
+  --status-dispatched: oklch(0.8 0.12 180);
+  --status-resolved: oklch(0.76 0.03 260);
+  --status-review: oklch(0.82 0.13 330);
+
+  --chart-1: var(--sev-critical);
+  --chart-2: var(--sev-high);
+  --chart-3: var(--sev-medium);
+  --chart-4: var(--sev-low);
+  --chart-5: var(--sev-unclassified);
+
+  --sidebar: oklch(0.232 0.061 268);
+  --sidebar-foreground: oklch(0.944 0.017 271.2);
+  --sidebar-primary: oklch(0.8 0.13 215);
+  --sidebar-primary-foreground: oklch(0.186 0.048 268.7);
+  --sidebar-accent: oklch(0.298 0.08 267);
+  --sidebar-accent-foreground: oklch(0.944 0.017 271.2);
+  --sidebar-border: oklch(0.298 0.08 267);
+  --sidebar-ring: oklch(0.8 0.13 215);
+
+  --shadow-panel: 0 20px 40px -20px oklch(0.1 0.04 268 / 80%);
+  --grid-line: oklch(0.298 0.08 267 / 45%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+}
+
+/* Subtle command-center grid behind page content. */
+@utility bg-command-grid {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+@utility shadow-panel {
+  box-shadow: var(--shadow-panel);
+}
+
+/* Leaflet controls themed to match the navy palette. */
+.leaflet-container {
+  /* Keep Leaflet's high z-index panes inside the map so they never cover the header or dialogs. */
+  isolation: isolate;
+  background: var(--color-background);
+  font-family: var(--font-sans);
+}
+
+.leaflet-bar a,
+.leaflet-bar a:hover {
+  background-color: var(--color-surface);
+  color: var(--color-foreground);
+  border-bottom-color: var(--color-border);
+}
+
+.leaflet-control-attribution {
+  background: oklch(0.186 0.048 268.7 / 85%) !important;
+  color: var(--color-muted-foreground) !important;
+}
+
+.leaflet-control-attribution a {
+  color: var(--color-primary) !important;
+}
+
+.resq-marker {
+  background: transparent;
+  border: none;
+}
+
+.resq-pin {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  border: 2px solid var(--color-background);
+  box-shadow: 0 0 0 2px var(--pin-color), 0 6px 14px -4px oklch(0 0 0 / 70%);
+  background: var(--pin-color);
+  color: var(--color-background);
+}
+
+.resq-pin--fresh {
+  animation: resq-pulse 1.2s ease-out 4;
+}
+
+@keyframes resq-pulse {
+  0% {
+    box-shadow: 0 0 0 2px var(--pin-color), 0 0 0 0 var(--pin-color);
+  }
+  100% {
+    box-shadow: 0 0 0 2px var(--pin-color), 0 0 0 18px transparent;
+  }
+}
+
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+  background-color: oklch(0.8 0.13 215 / 30%) !important;
+}
+
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  background-color: var(--color-primary) !important;
+  color: var(--color-primary-foreground) !important;
+  font-weight: 700;
+}
+
+@keyframes row-flash {
+  0% {
+    background-color: oklch(0.8 0.13 215 / 25%);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.animate-row-flash {
+  animation: row-flash 2.5s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resq-pin--fresh,
+  .animate-row-flash {
+    animation: none;
+  }
+}
