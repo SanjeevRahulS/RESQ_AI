@@ -18,7 +18,7 @@ TanStack Start (React 19, Vite), Tailwind v4, Lovable Cloud (database, private s
 
 The Live Map and Command Dashboard need a staff account; reporting an emergency never does. There is no self-sign-up: an admin creates the account and picks a role (admin or responder) from the **Team access** panel on the dashboard. A signed-in account without a role sees "No command staff access". The last remaining admin can't be removed or demoted.
 
-Demo sign-in: `command@resq.ai` / `ResqDemo2026!` (admin).
+Ask the project owner for a staff sign-in; passwords are never stored in this repository.
 
 ## Demo data
 
