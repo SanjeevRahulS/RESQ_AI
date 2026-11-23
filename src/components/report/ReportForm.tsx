@@ -86,12 +86,15 @@ export function ReportForm({ draft, onDraftChange, onSubmit, submitting, submitS
         All fields except the description or photos are optional.
       </p>
 
-      <section className="space-y-3 rounded-xl border bg-surface p-4 sm:p-5">
+      <section className="space-y-3 rounded-md border bg-surface p-4 sm:p-5">
         <div className="flex flex-wrap items-end justify-between gap-2">
-          <Label htmlFor="report-text" className="text-base font-semibold">
-            What's happening?
-          </Label>
-          <span className="text-xs text-muted-foreground">{draft.text.length}/5000</span>
+          <div className="flex items-baseline gap-3">
+            <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-sm border border-primary font-mono text-xs text-primary">1</span>
+            <Label htmlFor="report-text" className="text-base font-semibold">
+              Describe what is happening
+            </Label>
+          </div>
+          <span className="font-mono text-xs text-muted-foreground">{draft.text.length}/5000</span>
         </div>
         <Textarea
           id="report-text"
@@ -109,29 +112,7 @@ export function ReportForm({ draft, onDraftChange, onSubmit, submitting, submitS
           onTranscript={(t) => onDraftChange({ ...draft, text: draft.text ? `${draft.text.trimEnd()} ${t}` : t })}
         />
       </section>
-
-      <section className="space-y-3 rounded-xl border bg-surface p-4 sm:p-5">
-        <h2 className="text-base font-semibold">Photos</h2>
-        <PhotoPicker files={draft.photos} onChange={(photos) => set({ photos })} onError={setPhotoError} disabled={submitting} />
-        {photoError && (
-          <p role="alert" className="text-sm text-sev-high">
-            {photoError}
-          </p>
-        )}
-      </section>
-
-      <section className="space-y-3 rounded-xl border bg-surface p-4 sm:p-5">
-        <h2 className="text-base font-semibold">Location</h2>
-        <LocationField
-          position={draft.position}
-          onPositionChange={(position) => set({ position })}
-          address={draft.address}
-          onAddressChange={(address) => set({ address })}
-          disabled={submitting}
-        />
-      </section>
-
-      <section className="space-y-2 rounded-xl border bg-surface p-4 sm:p-5">
+      <section className="space-y-2 rounded-md border bg-surface p-4 sm:p-5">
         <Label htmlFor="report-phone" className="text-base font-semibold">
           Contact phone <span className="font-normal text-muted-foreground">(optional)</span>
         </Label>
@@ -146,12 +127,45 @@ export function ReportForm({ draft, onDraftChange, onSubmit, submitting, submitS
           maxLength={30}
           disabled={submitting}
         />
-        <p className="text-xs text-muted-foreground">Only responders see this, so they can call you back.</p>
+        <p className="text-xs text-muted-foreground">Your contact number is only shown to authorized responders.</p>
       </section>
-
+      <section className="space-y-3 rounded-md border bg-surface p-4 sm:p-5">
+        <div className="flex items-baseline gap-3">
+          <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-sm border border-primary font-mono text-xs text-primary">2</span>
+          <h2 className="text-base font-semibold">Location</h2>
+        </div>
+        <LocationField
+          position={draft.position}
+          onPositionChange={(position) => set({ position })}
+          address={draft.address}
+          onAddressChange={(address) => set({ address })}
+          disabled={submitting}
+        />
+      </section>
+      <section className="space-y-3 rounded-md border bg-surface p-4 sm:p-5">
+        <div className="flex items-baseline gap-3">
+          <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-sm border border-primary font-mono text-xs text-primary">3</span>
+          <h2 className="text-base font-semibold">Photos <span className="font-normal text-muted-foreground">(optional)</span></h2>
+        </div>
+        <PhotoPicker files={draft.photos} onChange={(photos) => set({ photos })} onError={setPhotoError} disabled={submitting} />
+        {photoError && (
+          <p role="alert" className="text-sm text-sev-high">
+            {photoError}
+          </p>
+        )}
+      </section>
+      <section className="space-y-2 border-t pt-6">
+        <div className="flex items-baseline gap-3">
+          <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-sm border border-primary font-mono text-xs text-primary">4</span>
+          <h2 className="text-base font-semibold">Review and send</h2>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          After sending, you can check the automated summary of your report and correct it before it reaches responders.
+        </p>
+      </section>
       <div aria-live="assertive" className="space-y-2">
         {(validation || error) && (
-          <div role="alert" className="flex gap-2 rounded-lg border border-sev-critical/60 bg-sev-critical/10 p-3 text-sm">
+          <div role="alert" className="flex gap-2 rounded-md border border-sev-critical/60 bg-sev-critical/10 p-3 text-sm">
             <AlertTriangle aria-hidden className="mt-0.5 size-4 shrink-0 text-sev-critical" />
             <div>
               <p className="font-medium">{validation ?? error}</p>
@@ -163,7 +177,7 @@ export function ReportForm({ draft, onDraftChange, onSubmit, submitting, submitS
         )}
       </div>
 
-      <div className="sticky bottom-0 -mx-3 border-t bg-background/95 px-3 py-3 backdrop-blur sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0">
+      <div className="sticky bottom-0 -mx-3 border-t bg-background px-3 py-3 sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0">
         <Button type="submit" size="lg" className="h-12 w-full text-base font-semibold" disabled={submitting}>
           {submitting ? <Loader2 aria-hidden className="size-5 animate-spin" /> : <Send aria-hidden className="size-5" />}
           {submitting ? (submitStage ?? "Sending…") : "Send report"}

@@ -30,7 +30,7 @@ export function VoiceInputButton({ onTranscript, disabled }: { onTranscript: (te
         {listening && (
           <span className="flex items-center gap-2 text-sm font-medium text-sev-critical">
             <span aria-hidden className="relative flex size-2.5">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-sev-critical opacity-75" />
+              <span className="absolute inline-flex size-full animate-pulse rounded-full bg-sev-critical opacity-75" />
               <span className="relative inline-flex size-2.5 rounded-full bg-sev-critical" />
             </span>
             Recording…

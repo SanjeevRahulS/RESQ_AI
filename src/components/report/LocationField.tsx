@@ -65,7 +65,7 @@ export function LocationField({ position, onPositionChange, address, onAddressCh
           </div>
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
             <span>
-              Pin: {position[0].toFixed(5)}, {position[1].toFixed(5)} — drag the pin or tap the map to correct it.
+              Pin: <span className="font-mono">{position[0].toFixed(5)}, {position[1].toFixed(5)}</span> — drag the pin or tap the map to correct it.
             </span>
             <button
               type="button"

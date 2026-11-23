@@ -18,12 +18,12 @@ function Card({
   tone: string;
 }) {
   return (
-    <div className="rounded-xl border bg-surface p-4">
+    <div className="bg-surface px-4 py-3">
       <div className="flex items-center justify-between gap-2">
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
-        <Icon aria-hidden className={cn("size-5", tone)} />
+        <p className="label-caps">{label}</p>
+        <Icon aria-hidden className={cn("size-4", tone)} />
       </div>
-      <p className={cn("mt-2 text-3xl font-extrabold tabular-nums", tone)}>{value}</p>
+      <p className={cn("mt-1 font-mono text-2xl font-medium tabular-nums", tone)}>{value}</p>
       <p className="mt-1 text-xs text-muted-foreground">{hint}</p>
     </div>
   );
@@ -31,7 +31,7 @@ function Card({
 
 export function StatCards({ stats }: { stats: DashboardStats }) {
   return (
-    <section aria-label="Key figures" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+    <section aria-label="Key figures" className="grid grid-cols-2 gap-px overflow-hidden rounded-md border bg-border lg:grid-cols-4">
       <Card label="Active incidents" value={stats.active} hint="Not yet resolved" icon={Activity} tone="text-primary" />
       <Card
         label="Critical"

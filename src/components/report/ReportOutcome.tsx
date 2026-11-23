@@ -9,7 +9,7 @@ export function ReportOutcome({ outcome, onReset }: { outcome: "received" | "lin
   const linked = outcome === "linked";
   const Icon = linked ? Link2 : CheckCircle2;
   return (
-    <div role="status" className="flex flex-col items-center gap-4 rounded-xl border bg-surface px-6 py-12 text-center">
+    <div role="status" className="flex flex-col items-center gap-4 rounded-md border bg-surface px-6 py-12 text-center">
       <span className="grid size-16 place-items-center rounded-full bg-sev-low/15 text-sev-low">
         <Icon aria-hidden className="size-8" />
       </span>

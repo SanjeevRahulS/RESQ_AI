@@ -24,7 +24,7 @@ export function IncidentPanel({ incident, onClose }: { incident: Incident; onClo
       role="dialog"
       aria-modal="false"
       aria-labelledby="incident-panel-title"
-      className="shadow-panel absolute inset-x-0 bottom-0 z-[1000] flex max-h-[65dvh] flex-col rounded-t-2xl border bg-surface md:inset-x-auto md:bottom-4 md:right-4 md:top-4 md:max-h-none md:w-[380px] md:rounded-2xl"
+      className="absolute inset-x-0 bottom-0 z-[1000] flex max-h-[65dvh] flex-col rounded-t-md border bg-surface md:inset-x-auto md:bottom-4 md:right-4 md:top-4 md:max-h-none md:w-[380px] md:rounded-md"
     >
       <div aria-hidden className="mx-auto mt-2 h-1.5 w-10 rounded-full bg-border md:hidden" />
       <div className="flex items-start gap-3 border-b p-4">

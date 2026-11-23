@@ -62,7 +62,7 @@ export function TeamAccessPanel() {
   const passwordTooShort = password.length > 0 && !isAcceptableStaffPassword(password);
 
   return (
-    <section className="rounded-xl border bg-surface p-4 sm:p-5" aria-labelledby="team-access-heading">
+    <section className="rounded-md border bg-surface p-4 sm:p-5" aria-labelledby="team-access-heading">
       <div className="flex items-start gap-3">
         <span className="grid size-9 shrink-0 place-items-center rounded-md bg-secondary">
           <UsersRound aria-hidden className="size-4 text-primary" />

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AlertTriangle, CheckCircle2, Loader2, Sparkles } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Loader2 } from "lucide-react";
 
 import { IncidentTypeIcon } from "@/components/incidents/IncidentTypeIcon";
 import { SeverityBadge } from "@/components/incidents/SeverityBadge";
@@ -55,7 +55,7 @@ export function ConfirmationStep({ aiOk, initial, confirming, error, onConfirm }
 
   return (
     <form onSubmit={submit} className="space-y-5" aria-labelledby="confirm-heading">
-      <div className="flex items-start gap-3 rounded-xl border border-sev-low/50 bg-sev-low/10 p-4">
+      <div className="flex items-start gap-3 rounded-md border border-sev-low/50 bg-sev-low/10 p-4">
         <CheckCircle2 aria-hidden className="mt-0.5 size-5 shrink-0 text-sev-low" />
         <div>
           <p className="font-semibold">Your report has been saved.</p>
@@ -64,7 +64,7 @@ export function ConfirmationStep({ aiOk, initial, confirming, error, onConfirm }
       </div>
 
       {!aiOk && (
-        <div role="status" className="flex items-start gap-3 rounded-xl border border-sev-high/60 bg-sev-high/10 p-4">
+        <div role="status" className="flex items-start gap-3 rounded-md border border-sev-high/60 bg-sev-high/10 p-4">
           <AlertTriangle aria-hidden className="mt-0.5 size-5 shrink-0 text-sev-high" />
           <div>
             <p className="font-semibold">Automatic classification is unavailable right now.</p>
@@ -76,16 +76,15 @@ export function ConfirmationStep({ aiOk, initial, confirming, error, onConfirm }
         </div>
       )}
 
-      <section className="space-y-4 rounded-xl border bg-surface p-4 sm:p-5">
+      <section className="space-y-4 rounded-md border bg-surface p-4 sm:p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 id="confirm-heading" className="flex items-center gap-2 text-lg font-semibold">
-            {aiOk && <Sparkles aria-hidden className="size-4 text-primary" />}
-            {aiOk ? "AI-extracted details" : "Report details"}
+            {aiOk ? "Automated summary, verified by staff" : "Report details"}
           </h2>
           <SeverityBadge severity={fields.severity} size="lg" />
         </div>
         {aiOk && fields.confidence != null && (
-          <p className="text-xs text-muted-foreground">AI confidence: {Math.round(fields.confidence * 100)}%</p>
+          <p className="text-xs text-muted-foreground">Automated summary, verified by staff · confidence {Math.round(fields.confidence * 100)}%</p>
         )}
 
         <div className="grid gap-4 sm:grid-cols-2">

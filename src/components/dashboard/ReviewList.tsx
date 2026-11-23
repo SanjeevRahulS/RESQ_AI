@@ -16,7 +16,7 @@ function Side({ title, incident }: { title: string; incident: Incident | undefin
         <>
           <div className="flex flex-wrap items-center gap-2">
             <SeverityBadge severity={incident.severity} size="sm" />
-            <span className="text-xs text-muted-foreground">{timeAgo(incident.created_at)}</span>
+            <span className="text-xs text-muted-foreground font-mono">{timeAgo(incident.created_at)}</span>
           </div>
           <p className="text-sm">{incident.summary ?? incident.raw_text}</p>
           <p className="text-xs text-muted-foreground">{incident.address_text ?? "No address"}</p>
@@ -42,7 +42,7 @@ export function ReviewList({ incidents, onOpen }: Props) {
 
   if (items.length === 0) {
     return (
-      <p className="rounded-xl border bg-surface p-8 text-center text-sm text-muted-foreground">
+      <p className="rounded-md border bg-surface p-8 text-center text-sm text-muted-foreground">
         Nothing to review. Suspected duplicates will appear here.
       </p>
     );
@@ -53,7 +53,7 @@ export function ReviewList({ incidents, onOpen }: Props) {
       {items.map((i) => {
         const busy = reviewMutation.isPending && reviewMutation.variables?.id === i.id;
         return (
-          <li key={i.id} className="space-y-3 rounded-xl border bg-surface p-4">
+          <li key={i.id} className="space-y-3 rounded-md border bg-surface p-4">
             <div className="flex flex-wrap items-center gap-2">
               <IncidentTypeIcon type={i.incident_type} className="size-4 text-muted-foreground" />
               <span className="font-semibold">{i.incident_type ? TYPE_LABEL[i.incident_type] : "Unclassified"}</span>
@@ -70,7 +70,7 @@ export function ReviewList({ incidents, onOpen }: Props) {
               <Side title="New report" incident={i} />
               <Side title="Existing incident" incident={i.suspected_duplicate_of ? byId.get(i.suspected_duplicate_of) : undefined} />
             </div>
-            {i.duplicate_reason && <p className="text-xs text-muted-foreground">AI: {i.duplicate_reason}</p>}
+            {i.duplicate_reason && <p className="text-xs text-muted-foreground">Automated note: {i.duplicate_reason}</p>}
             <div className="flex flex-wrap gap-2">
               <Button
                 onClick={() => reviewMutation.mutate({ id: i.id, action: "merge" })}

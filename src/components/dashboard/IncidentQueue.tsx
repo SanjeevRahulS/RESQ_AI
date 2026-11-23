@@ -45,10 +45,10 @@ export function IncidentQueue({ incidents, freshIds, onOpen }: Props) {
   const visible = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
-    <section aria-labelledby="queue-title" className="rounded-xl border bg-surface">
+    <section aria-labelledby="queue-title" className="rounded-md border bg-surface">
       <div className="space-y-3 border-b p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 id="queue-title" className="text-sm font-semibold">
+          <h2 id="queue-title" className="label-caps">
             Incident queue
           </h2>
           <p className="text-xs text-muted-foreground" aria-live="polite">
@@ -88,7 +88,7 @@ export function IncidentQueue({ incidents, freshIds, onOpen }: Props) {
                   <span className="flex flex-wrap items-center gap-2">
                     <SeverityBadge severity={i.severity} size="sm" />
                     <StatusBadge status={i.status} />
-                    <span className="ml-auto text-xs text-muted-foreground">{timeAgo(i.created_at)}</span>
+                    <span className="ml-auto text-xs text-muted-foreground font-mono">{timeAgo(i.created_at)}</span>
                   </span>
                   <span className="flex items-center gap-2 font-medium">
                     <IncidentTypeIcon type={i.incident_type} className="size-4 text-muted-foreground" />

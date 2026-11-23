@@ -9,8 +9,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "IBM Plex Serif", ui-serif, Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -63,42 +64,42 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/* RESQ AI is a single dark command-center theme: :root holds the midnight-navy palette. */
+/* RESQ: a single matte graphite-navy theme. One accent (amber); muted severity palette. */
 :root {
-  --radius: 0.5rem;
-  --background: oklch(0.186 0.048 268.7); /* #0A1128 */
-  --foreground: oklch(0.944 0.017 271.2); /* #E8ECF8 */
-  --surface: oklch(0.232 0.061 268); /* #111B3A */
-  --surface-raised: oklch(0.265 0.07 267.5);
-  --card: oklch(0.232 0.061 268);
-  --card-foreground: oklch(0.944 0.017 271.2);
-  --popover: oklch(0.232 0.061 268);
-  --popover-foreground: oklch(0.944 0.017 271.2);
-  --primary: oklch(0.8 0.13 215);
-  --primary-foreground: oklch(0.186 0.048 268.7);
-  --secondary: oklch(0.298 0.08 267);
-  --secondary-foreground: oklch(0.944 0.017 271.2);
-  --muted: oklch(0.265 0.07 267.5);
-  --muted-foreground: oklch(0.76 0.035 265);
-  --accent: oklch(0.32 0.085 267);
-  --accent-foreground: oklch(0.944 0.017 271.2);
-  --destructive: oklch(0.68 0.2 25);
-  --destructive-foreground: oklch(0.186 0.048 268.7);
-  --border: oklch(0.298 0.08 267); /* #1B2A55 */
-  --input: oklch(0.345 0.085 267.8);
-  --ring: oklch(0.8 0.13 215);
+  --radius: 0.375rem;
+  --background: #0e1620;
+  --foreground: #e6eaf0;
+  --surface: #16212e;
+  --surface-raised: #1c2938;
+  --card: #16212e;
+  --card-foreground: #e6eaf0;
+  --popover: #16212e;
+  --popover-foreground: #e6eaf0;
+  --primary: #e0a030;
+  --primary-foreground: #0e1620;
+  --secondary: #1f2c3b;
+  --secondary-foreground: #e6eaf0;
+  --muted: #1c2938;
+  --muted-foreground: #9aa7b5;
+  --accent: #1f2c3b;
+  --accent-foreground: #e6eaf0;
+  --destructive: #c8453f;
+  --destructive-foreground: #ffffff;
+  --border: #2a3847;
+  --input: #2a3847;
+  --ring: #e0a030;
 
-  --sev-critical: oklch(0.7 0.19 25);
-  --sev-high: oklch(0.76 0.17 50);
-  --sev-medium: oklch(0.87 0.16 92);
-  --sev-low: oklch(0.78 0.17 150);
-  --sev-unclassified: oklch(0.76 0.03 260);
+  --sev-critical: #c8453f;
+  --sev-high: #d9792b;
+  --sev-medium: #c9a227;
+  --sev-low: #4e9a6b;
+  --sev-unclassified: #7b8794;
 
-  --status-new: oklch(0.8 0.13 215);
-  --status-verified: oklch(0.78 0.12 290);
-  --status-dispatched: oklch(0.8 0.12 180);
-  --status-resolved: oklch(0.76 0.03 260);
-  --status-review: oklch(0.82 0.13 330);
+  --status-new: #8fb3d9;
+  --status-verified: #a9a3cf;
+  --status-dispatched: #6fb0a8;
+  --status-resolved: #7b8794;
+  --status-review: #c99bb5;
 
   --chart-1: var(--sev-critical);
   --chart-2: var(--sev-high);
@@ -106,17 +107,16 @@
   --chart-4: var(--sev-low);
   --chart-5: var(--sev-unclassified);
 
-  --sidebar: oklch(0.232 0.061 268);
-  --sidebar-foreground: oklch(0.944 0.017 271.2);
-  --sidebar-primary: oklch(0.8 0.13 215);
-  --sidebar-primary-foreground: oklch(0.186 0.048 268.7);
-  --sidebar-accent: oklch(0.298 0.08 267);
-  --sidebar-accent-foreground: oklch(0.944 0.017 271.2);
-  --sidebar-border: oklch(0.298 0.08 267);
-  --sidebar-ring: oklch(0.8 0.13 215);
+  --sidebar: #16212e;
+  --sidebar-foreground: #e6eaf0;
+  --sidebar-primary: #e0a030;
+  --sidebar-primary-foreground: #0e1620;
+  --sidebar-accent: #1f2c3b;
+  --sidebar-accent-foreground: #e6eaf0;
+  --sidebar-border: #2a3847;
+  --sidebar-ring: #e0a030;
 
-  --shadow-panel: 0 20px 40px -20px oklch(0.1 0.04 268 / 80%);
-  --grid-line: oklch(0.298 0.08 267 / 45%);
+  --shadow-panel: 0 8px 24px -12px rgb(0 0 0 / 60%);
 }
 
 @layer base {
@@ -133,6 +133,14 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   :focus-visible {
@@ -141,12 +149,9 @@
   }
 }
 
-/* Subtle command-center grid behind page content. */
+/* Kept as a no-op so existing pages stay flat (no grid backgrounds). */
 @utility bg-command-grid {
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 48px 48px;
+  background-image: none;
 }
 
 @utility shadow-panel {
@@ -169,7 +174,7 @@
 }
 
 .leaflet-control-attribution {
-  background: oklch(0.186 0.048 268.7 / 85%) !important;
+  background: rgb(14 22 32 / 85%) !important;
   color: var(--color-muted-foreground) !important;
 }
 
@@ -187,9 +192,9 @@
   place-items: center;
   width: 34px;
   height: 34px;
-  border-radius: 9999px;
+  border-radius: 4px;
   border: 2px solid var(--color-background);
-  box-shadow: 0 0 0 2px var(--pin-color), 0 6px 14px -4px oklch(0 0 0 / 70%);
+  box-shadow: 0 0 0 1px var(--pin-color);
   background: var(--pin-color);
   color: var(--color-background);
 }
@@ -199,18 +204,14 @@
 }
 
 @keyframes resq-pulse {
-  0% {
-    box-shadow: 0 0 0 2px var(--pin-color), 0 0 0 0 var(--pin-color);
-  }
-  100% {
-    box-shadow: 0 0 0 2px var(--pin-color), 0 0 0 18px transparent;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
 }
 
 .marker-cluster-small,
 .marker-cluster-medium,
 .marker-cluster-large {
-  background-color: oklch(0.8 0.13 215 / 30%) !important;
+  background-color: rgb(224 160 48 / 22%) !important;
 }
 
 .marker-cluster-small div,
@@ -223,7 +224,7 @@
 
 @keyframes row-flash {
   0% {
-    background-color: oklch(0.8 0.13 215 / 25%);
+    background-color: rgb(224 160 48 / 18%);
   }
   100% {
     background-color: transparent;
@@ -239,4 +240,13 @@
   .animate-row-flash {
     animation: none;
   }
+}
+
+/* Small-caps label used for table headers and field labels. */
+@utility label-caps {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
 }

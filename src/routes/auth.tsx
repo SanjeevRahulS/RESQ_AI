@@ -26,10 +26,10 @@ export const Route = createFileRoute("/auth")({
   validateSearch: searchSchema,
   head: () => ({
     meta: [
-      { title: "Staff sign in — RESQ AI" },
-      { name: "description", content: "Sign in for RESQ AI command staff: admins and responders." },
-      { property: "og:title", content: "Staff sign in — RESQ AI" },
-      { property: "og:description", content: "Sign in for RESQ AI command staff." },
+      { title: "Staff sign in — RESQ" },
+      { name: "description", content: "Sign in for RESQ command staff: admins and responders." },
+      { property: "og:title", content: "Staff sign in — RESQ" },
+      { property: "og:description", content: "Sign in for RESQ command staff." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

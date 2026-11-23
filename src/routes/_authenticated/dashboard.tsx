@@ -18,9 +18,9 @@ import type { Incident } from "@/lib/incidents/types";
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
-      { title: "Command Dashboard — RESQ AI" },
+      { title: "Command Dashboard — RESQ" },
       { name: "description", content: "Triage incidents by severity, track status from new to resolved, and review suspected duplicates." },
-      { property: "og:title", content: "Command Dashboard — RESQ AI" },
+      { property: "og:title", content: "Command Dashboard — RESQ" },
       { property: "og:description", content: "Triage incidents by severity, track status and review suspected duplicates." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

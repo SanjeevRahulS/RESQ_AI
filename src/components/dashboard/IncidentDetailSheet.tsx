@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { AlertTriangle, Clock, GitMerge, Loader2, MapPin, Phone, Split, Sparkles, Users } from "lucide-react";
+import { AlertTriangle, Clock, GitMerge, Loader2, MapPin, Phone, Split, Users } from "lucide-react";
 import { format } from "date-fns";
 
 import { IncidentTypeIcon } from "@/components/incidents/IncidentTypeIcon";
@@ -50,7 +50,7 @@ function LinkedRow({ incident, onOpen }: { incident: Incident; onOpen: () => voi
     <li className="rounded-lg border p-3">
       <div className="flex flex-wrap items-center gap-2">
         <SeverityBadge severity={incident.severity} size="sm" />
-        <span className="text-xs text-muted-foreground">{timeAgo(incident.created_at)}</span>
+        <span className="text-xs text-muted-foreground font-mono">{timeAgo(incident.created_at)}</span>
         {incident.duplicate_similarity != null && (
           <span className="text-xs text-muted-foreground">
             · similarity {Math.round(incident.duplicate_similarity * 100)}%
@@ -101,7 +101,7 @@ export function IncidentDetailSheet({ incidentId, onClose, onOpenIncident }: Pro
                 <SeverityBadge severity={incident.severity} />
                 <StatusBadge status={incident.status} />
                 {incident.duplicate_of && (
-                  <span className="rounded-full border px-2 py-0.5 text-xs text-muted-foreground">Linked report</span>
+                  <span className="rounded-sm border px-2 py-0.5 text-xs text-muted-foreground">Linked report</span>
                 )}
               </div>
               <SheetTitle className="flex items-center gap-2 text-xl">
@@ -115,7 +115,7 @@ export function IncidentDetailSheet({ incidentId, onClose, onOpenIncident }: Pro
 
             <div className="space-y-6 p-5">
               {incident.status === "needs_review" && (
-                <div className="space-y-3 rounded-xl border border-status-review/60 bg-status-review/10 p-4">
+                <div className="space-y-3 rounded-md border border-status-review/60 bg-status-review/10 p-4">
                   <p className="flex items-center gap-2 font-semibold">
                     <GitMerge aria-hidden className="size-4 text-status-review" /> Possible duplicate
                   </p>
@@ -126,7 +126,7 @@ export function IncidentDetailSheet({ incidentId, onClose, onOpenIncident }: Pro
                   )}
                   {incident.duplicate_reason && (
                     <p className="text-xs text-muted-foreground">
-                      AI: {incident.duplicate_reason}
+                      Automated note: {incident.duplicate_reason}
                       {incident.duplicate_similarity != null &&
                         ` (similarity ${Math.round(incident.duplicate_similarity * 100)}%)`}
                     </p>
@@ -177,7 +177,7 @@ export function IncidentDetailSheet({ incidentId, onClose, onOpenIncident }: Pro
                   </Select>
                   {incident.confidence != null && (
                     <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                      <Sparkles aria-hidden className="size-3.5" /> AI confidence {Math.round(incident.confidence * 100)}%
+                      Automated summary · confidence {Math.round(incident.confidence * 100)}%
                     </span>
                   )}
                 </div>
@@ -208,7 +208,7 @@ export function IncidentDetailSheet({ incidentId, onClose, onOpenIncident }: Pro
                       <dd>
                         <time dateTime={incident.created_at}>{format(new Date(incident.created_at), "d MMM yyyy, HH:mm")}</time>
                       </dd>
-                      <dd className="text-xs text-muted-foreground">{timeAgo(incident.created_at)}</dd>
+                      <dd className="text-xs text-muted-foreground font-mono">{timeAgo(incident.created_at)}</dd>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -234,7 +234,7 @@ export function IncidentDetailSheet({ incidentId, onClose, onOpenIncident }: Pro
                   </div>
                 </dl>
                 {incident.ai_status === "failed" && (
-                  <p className="text-xs text-sev-high">AI classification failed for this report — review it manually.</p>
+                  <p className="text-xs text-sev-high">Automated summary unavailable for this report — review it manually.</p>
                 )}
               </Section>
 

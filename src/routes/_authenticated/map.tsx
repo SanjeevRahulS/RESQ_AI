@@ -19,9 +19,9 @@ const IncidentMap = lazy(() => import("@/components/map/IncidentMap"));
 export const Route = createFileRoute("/_authenticated/map")({
   head: () => ({
     meta: [
-      { title: "Live Incident Map — RESQ AI" },
+      { title: "Live Incident Map — RESQ" },
       { name: "description", content: "Live map of reported emergencies, colour-coded by severity and updated in real time." },
-      { property: "og:title", content: "Live Incident Map — RESQ AI" },
+      { property: "og:title", content: "Live Incident Map — RESQ" },
       { property: "og:description", content: "Live map of reported emergencies, colour-coded by severity." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -96,7 +96,7 @@ function LiveMapPage() {
           <Button
             size="icon"
             variant="secondary"
-            className="shadow-panel border"
+            className="border"
             aria-label="Fit all incidents in view"
             title="Fit all incidents"
             onClick={() => mapRef.current?.fitAll()}
@@ -106,7 +106,7 @@ function LiveMapPage() {
           <Button
             size="icon"
             variant="secondary"
-            className="shadow-panel border"
+            className="border"
             aria-label="Show my location"
             title="Locate me"
             onClick={async () => {
