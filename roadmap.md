@@ -7,4 +7,6 @@
 - [x] README and rule tests
 - [x] Staff access: admin-only Team access panel (create account, change role, remove) + first-admin bootstrap
 - [x] Demo data: 14 seeded Chennai incidents with a full change log
-- [ ] End-to-end checks at 375px and 1440px
+- [x] End-to-end checks: report at 375px, dashboard/merge/team access at 1440px
+- [x] Remove leftover responder@resq.ai test account
+- [x] Run-through: send report, duplicate detection, merge after sign-in; sample data restored
