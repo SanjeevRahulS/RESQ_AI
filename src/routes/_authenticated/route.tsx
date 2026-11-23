@@ -13,8 +13,11 @@ export const Route = createFileRoute("/_authenticated")({
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) throw redirect({ to: "/auth", search: { redirect: location.href } });
-    const { data: isStaff } = await supabase.rpc("is_staff", { _user_id: user.id });
-    return { user, isStaff: Boolean(isStaff) };
+    const [{ data: isStaff }, { data: isAdmin }] = await Promise.all([
+      supabase.rpc("is_staff", { _user_id: user.id }),
+      supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }),
+    ]);
+    return { user, isStaff: Boolean(isStaff), isAdmin: Boolean(isAdmin) };
   },
   component: StaffGate,
 });

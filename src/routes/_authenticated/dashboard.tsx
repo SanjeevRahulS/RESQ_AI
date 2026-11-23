@@ -8,6 +8,7 @@ import { IncidentQueue } from "@/components/dashboard/IncidentQueue";
 import { ReviewList } from "@/components/dashboard/ReviewList";
 import { SeverityChart } from "@/components/dashboard/SeverityChart";
 import { StatCards } from "@/components/dashboard/StatCards";
+import { TeamAccessPanel } from "@/components/dashboard/TeamAccessPanel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIncidentsRealtime } from "@/hooks/useIncidentsRealtime";
 import { incidentsQuery } from "@/lib/incidents/queries";
@@ -31,7 +32,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 
 function DashboardPage() {
   const { data } = useSuspenseQuery(incidentsQuery());
-  const { user } = Route.useRouteContext();
+  const { user, isAdmin } = Route.useRouteContext();
   const [openId, setOpenId] = useState<string | null>(null);
   const [tab, setTab] = useState("queue");
   const [freshIds, setFreshIds] = useState<Set<string>>(new Set());
@@ -88,6 +89,8 @@ function DashboardPage() {
         </Tabs>
         <SeverityChart counts={stats.bySeverity} />
       </div>
+
+      {isAdmin && <TeamAccessPanel />}
 
       <IncidentDetailSheet incidentId={openId} onClose={() => setOpenId(null)} onOpenIncident={setOpenId} />
 

@@ -5,4 +5,6 @@
 - [x] Live Map (clusters, filters, side panel, realtime, legend, fit all, locate me)
 - [x] Command Dashboard (stats, severity chart, queue, detail + status workflow, event log, Needs review merge/keep)
 - [x] README and rule tests
+- [x] Staff access: admin-only Team access panel (create account, change role, remove) + first-admin bootstrap
+- [x] Demo data: 14 seeded Chennai incidents with a full change log
 - [ ] End-to-end checks at 375px and 1440px
