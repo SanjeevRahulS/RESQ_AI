@@ -9,6 +9,8 @@ import { ReviewList } from "@/components/dashboard/ReviewList";
 import { SeverityChart } from "@/components/dashboard/SeverityChart";
 import { StatCards } from "@/components/dashboard/StatCards";
 import { TeamAccessPanel } from "@/components/dashboard/TeamAccessPanel";
+import { AdvisoriesPanel } from "@/components/advisories/AdvisoriesPanel";
+import { FacilitiesPanel } from "@/components/facilities/FacilitiesPanel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIncidentsRealtime } from "@/hooks/useIncidentsRealtime";
 import { incidentsQuery } from "@/lib/incidents/queries";
@@ -89,6 +91,13 @@ function DashboardPage() {
         </Tabs>
         <SeverityChart counts={stats.bySeverity} />
       </div>
+
+      {isAdmin && (
+        <div className="grid gap-5 xl:grid-cols-2">
+          <AdvisoriesPanel />
+          <FacilitiesPanel />
+        </div>
+      )}
 
       {isAdmin && <TeamAccessPanel />}
 

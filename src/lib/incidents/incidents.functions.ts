@@ -9,12 +9,19 @@ import {
   type Severity,
 } from "./constants";
 import type { ExtractedFields } from "./types";
+import {
+  generalArea,
+  generateTrackingCode,
+  normalizeTrackingCode,
+  publicStatus,
+  type PublicStatus,
+} from "./tracking";
 import { requireStaff } from "@/lib/auth/staff-middleware";
 import type { Database } from "@/integrations/supabase/types";
 
 type IncidentUpdate = Database["public"]["Tables"]["incidents"]["Update"];
 
-// submitReport/confirmReport are public so anonymous reporters can send reports; every input is
+// submitReport/confirmReport/trackReport are public so anonymous reporters can send reports; every input is
 // validated and only whitelisted fields are written. Dashboard actions require command staff and
 // record the signed-in staff email as the actor.
 
@@ -139,30 +146,94 @@ const confirmSchema = z.object({
 /** Applies the reporter's edits, then runs duplicate detection. Reveals nothing about other reports. */
 export const confirmReport = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => confirmSchema.parse(input))
-  .handler(async ({ data }): Promise<{ outcome: "received" | "linked" }> => {
+  .handler(async ({ data }): Promise<ConfirmReportResult> => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const { data: existing, error: readErr } = await supabaseAdmin
       .from("incidents")
-      .select("id, reporter_confirmed")
+      .select("id, reporter_confirmed, tracking_code")
       .eq("id", data.id)
       .single();
     if (readErr || !existing) throw new Error("Report not found.");
-    if (existing.reporter_confirmed) return { outcome: "received" };
+    if (existing.reporter_confirmed) return { outcome: "received", trackingCode: existing.tracking_code };
 
-    const { error } = await supabaseAdmin
-      .from("incidents")
-      .update({ ...data.fields, reporter_confirmed: true })
-      .eq("id", data.id);
-    if (error) throw new Error("We couldn't save your changes. Your original report is still saved.");
+    // A fresh tracking code is drawn on the rare clash with an existing one (unique index).
+    let trackingCode: string | null = null;
+    for (let attempt = 0; attempt < 5 && !trackingCode; attempt++) {
+      const candidate = generateTrackingCode();
+      const { error } = await supabaseAdmin
+        .from("incidents")
+        .update({ ...data.fields, reporter_confirmed: true, tracking_code: candidate })
+        .eq("id", data.id);
+      if (!error) trackingCode = candidate;
+      else if (error.code !== "23505") {
+        console.error("Failed to confirm report", error);
+        throw new Error("We couldn't save your changes. Your original report is still saved.");
+      }
+    }
+    if (!trackingCode) throw new Error("We couldn't save your changes. Your original report is still saved.");
 
     try {
       const { runDuplicateCheck } = await import("./dedupe.server");
-      return { outcome: await runDuplicateCheck(supabaseAdmin, data.id) };
+      return { outcome: await runDuplicateCheck(supabaseAdmin, data.id), trackingCode };
     } catch (dedupeError) {
       console.error("Duplicate check failed; report kept as new", dedupeError);
-      return { outcome: "received" };
+      return { outcome: "received", trackingCode };
     }
+  });
+
+export interface ConfirmReportResult {
+  outcome: "received" | "linked";
+  trackingCode: string | null;
+}
+
+export interface TrackReportResult {
+  code: string;
+  status: PublicStatus;
+  updatedAt: string;
+  area: string | null;
+}
+
+/**
+ * Public "Track a report" lookup. Returns only the public status, last update time and a general
+ * area; a linked duplicate reports the status of the incident it was merged into.
+ */
+export const trackReport = createServerFn({ method: "GET" })
+  .inputValidator((input: unknown) => z.object({ code: z.string().max(20) }).parse(input))
+  .handler(async ({ data }): Promise<TrackReportResult | null> => {
+    const code = normalizeTrackingCode(data.code);
+    if (!code) return null;
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: report, error } = await supabaseAdmin
+      .from("incidents")
+      .select("status, updated_at, address_text, latitude, longitude, duplicate_of")
+      .eq("tracking_code", code)
+      .maybeSingle();
+    if (error) {
+      console.error("Tracking lookup failed", error);
+      throw new Error("We couldn't look up that report right now. Please try again.");
+    }
+    if (!report) return null;
+
+    let status = report.status;
+    let updatedAt = report.updated_at;
+    if (report.duplicate_of) {
+      const { data: original } = await supabaseAdmin
+        .from("incidents")
+        .select("status, updated_at")
+        .eq("id", report.duplicate_of)
+        .maybeSingle();
+      if (original) {
+        status = original.status;
+        updatedAt = original.updated_at > updatedAt ? original.updated_at : updatedAt;
+      }
+    }
+    return {
+      code,
+      status: publicStatus(status),
+      updatedAt,
+      area: generalArea(report.address_text, report.latitude, report.longitude),
+    };
   });
 
 const updateSchema = z.object({

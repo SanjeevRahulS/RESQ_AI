@@ -3,8 +3,16 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 
 import { ALL_SEVERITIES, SEVERITY_LABEL } from "@/lib/incidents/constants";
 import { SEVERITY_ICON, SEVERITY_VAR } from "@/components/incidents/SeverityBadge";
+import { FacilityMarkerSwatch } from "@/components/facilities/FacilityIcon";
+import { FACILITY_LABEL, FACILITY_TYPES } from "@/lib/facilities/constants";
 
-export function MapLegend({ defaultOpen = true }: { defaultOpen?: boolean }) {
+export function MapLegend({
+  defaultOpen = true,
+  showFacilities = false,
+}: {
+  defaultOpen?: boolean;
+  showFacilities?: boolean;
+}) {
   const [open, setOpen] = useState(defaultOpen);
   return (
     <div className="rounded-md border bg-surface text-sm">
@@ -40,6 +48,13 @@ export function MapLegend({ defaultOpen = true }: { defaultOpen?: boolean }) {
             </span>
             Cluster of incidents
           </li>
+          {showFacilities &&
+            FACILITY_TYPES.map((t) => (
+              <li key={t} className="flex items-center gap-2">
+                <FacilityMarkerSwatch type={t} />
+                {FACILITY_LABEL[t]}
+              </li>
+            ))}
         </ul>
       )}
     </div>

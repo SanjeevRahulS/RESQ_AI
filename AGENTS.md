@@ -31,10 +31,12 @@ use the editor.
 
 ## Project rules
 
-- Incident reads and dashboard actions are server functions behind `requireStaff` (`src/lib/auth/staff-middleware.ts`), querying as the user so RLS (`is_staff`) also applies; only `submitReport`/`confirmReport` and photo upload slots are public — anonymous reporting must keep working while incident data stays staff-only.
+- Incident reads and dashboard actions are server functions behind `requireStaff` (`src/lib/auth/staff-middleware.ts`), querying as the user so RLS (`is_staff`) also applies; only `submitReport`/`confirmReport`/`trackReport` and photo upload slots are public — anonymous reporting must keep working while incident data stays staff-only.
 - Staff roles live in `public.user_roles` (admin, responder) checked via security-definer `has_role`/`is_staff`; roles are granted only from the backend, never by sign-up — prevents privilege escalation.
 - Staff pages (map, dashboard) live under `src/routes/_authenticated/` (client-only gate, redirects to `/auth`); the event-log actor is the signed-in email from the token, never client input.
 - Triage thresholds and queue/stat logic live as pure functions in `src/lib/incidents/rules.ts`, `filters.ts` and `stats.ts`, covered by `src/test/incident-rules.test.ts` — change rules there, not inline in components.
 - Report photos are in a private bucket with no browser policies: uploads use server-issued signed upload slots and viewing uses server-signed URLs for photos attached to an incident — the workspace blocks public buckets and anonymous uploads must stay confined.
 - Leaflet is browser-only: map components are `React.lazy` modules rendered inside `<ClientOnly>`, and `.leaflet-container` is isolated so its panes never cover the header or dialogs.
 - Staff access is managed only from the dashboard's Team access panel by admins (`requireAdmin` + `has_role` in `src/lib/auth/staff-middleware.ts`); the service-role client is touched only after the caller's admin role is verified, and the last admin can never be removed or demoted — that guard is the pure `canChangeAdminRole` in `src/lib/auth/access.ts`, covered by `src/test/access-rules.test.ts`.
+- Public report tracking returns only the public status, last update and a derived general area (`src/lib/incidents/tracking.ts`, tested in `src/test/public-features.test.ts`); codes are assigned server-side on confirm with a unique index — never expose contact details, photos or exact coordinates on public pages.
+- Advisories are readable by anyone only while unexpired (RLS) and are written only by admins via `requireAdmin` server functions; they are expired, never deleted. Facilities are staff-readable and admin-writable the same way.

@@ -13,7 +13,12 @@ const EMPTY: ReportDraft = { text: "", photos: [], position: null, address: "", 
 type Step =
   | { kind: "form" }
   | { kind: "review"; id: string; aiOk: boolean; extracted: ExtractedFields }
-  | { kind: "done"; outcome: "received" | "linked" };
+  | {
+      kind: "done";
+      outcome: "received" | "linked";
+      trackingCode: string | null;
+      incidentType: ExtractedFields["incident_type"];
+    };
 
 function message(err: unknown, fallback: string) {
   if (err instanceof Error && err.message && !err.message.startsWith("[")) return err.message;
@@ -73,8 +78,8 @@ export function ReportFlow() {
     setBusy(true);
     setError(null);
     try {
-      const { outcome } = await confirm({ data: { id: step.id, fields } });
-      setStep({ kind: "done", outcome });
+      const { outcome, trackingCode } = await confirm({ data: { id: step.id, fields } });
+      setStep({ kind: "done", outcome, trackingCode, incidentType: fields.incident_type });
     } catch (err) {
       setError(message(err, "We couldn't confirm your changes."));
     } finally {
@@ -89,7 +94,16 @@ export function ReportFlow() {
     setStep({ kind: "form" });
   };
 
-  if (step.kind === "done") return <ReportOutcome outcome={step.outcome} onReset={reset} />;
+  if (step.kind === "done") {
+    return (
+      <ReportOutcome
+        outcome={step.outcome}
+        trackingCode={step.trackingCode}
+        incidentType={step.incidentType}
+        onReset={reset}
+      />
+    );
+  }
   if (step.kind === "review") {
     return (
       <ConfirmationStep

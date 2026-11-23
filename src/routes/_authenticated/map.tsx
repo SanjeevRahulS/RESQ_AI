@@ -1,7 +1,7 @@
 import { lazy, Suspense, useCallback, useMemo, useRef, useState } from "react";
 import { createFileRoute, ClientOnly } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { Crosshair, Maximize2 } from "lucide-react";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { Crosshair, Hospital, Maximize2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { IncidentFilterControls } from "@/components/incidents/IncidentFilterControls";
@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { useIncidentsRealtime } from "@/hooks/useIncidentsRealtime";
 import { DEFAULT_FILTERS, matchesFilters, type IncidentFilters } from "@/lib/incidents/filters";
 import { incidentsQuery } from "@/lib/incidents/queries";
+import { facilitiesQuery } from "@/lib/facilities/queries";
 import type { Incident } from "@/lib/incidents/types";
 
 const IncidentMap = lazy(() => import("@/components/map/IncidentMap"));
@@ -42,6 +43,9 @@ function LiveMapPage() {
   const [freshIds, setFreshIds] = useState<Set<string>>(new Set());
   const [announcement, setAnnouncement] = useState("");
   const mapRef = useRef<IncidentMapHandle>(null);
+  const [showFacilities, setShowFacilities] = useState(false);
+  const facilitiesRes = useQuery({ ...facilitiesQuery(), enabled: showFacilities });
+  const facilities = showFacilities ? (facilitiesRes.data ?? []) : [];
 
   const onNew = useCallback((incident: Incident) => {
     setFreshIds((s) => new Set(s).add(incident.id));
@@ -72,10 +76,23 @@ function LiveMapPage() {
         <div role="group" aria-label="Filter incidents" className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap">
           <IncidentFilterControls value={filters} onChange={setFilters} idPrefix="map" />
         </div>
-        <p className="mt-1 text-xs text-muted-foreground" aria-live="polite">
-          Showing {visible.length} incident{visible.length === 1 ? "" : "s"}
-          {unmapped > 0 && ` · ${unmapped} without a map location`}
-        </p>
+        <div className="mt-1 flex flex-wrap items-center justify-between gap-2">
+          <p className="text-xs text-muted-foreground" aria-live="polite">
+            Showing {visible.length} incident{visible.length === 1 ? "" : "s"}
+            {unmapped > 0 && ` · ${unmapped} without a map location`}
+            {showFacilities && facilitiesRes.data && ` · ${facilities.length} shelters and hospitals`}
+            {showFacilities && facilitiesRes.isError && " · shelters and hospitals could not be loaded"}
+          </p>
+          <Button
+            size="sm"
+            variant={showFacilities ? "default" : "outline"}
+            aria-pressed={showFacilities}
+            onClick={() => setShowFacilities((v) => !v)}
+          >
+            <Hospital aria-hidden className="size-4" />
+            Shelters and hospitals
+          </Button>
+        </div>
       </div>
 
       <div className="relative isolate min-h-0 flex-1">
@@ -85,6 +102,7 @@ function LiveMapPage() {
             <IncidentMap
               ref={mapRef}
               incidents={visible}
+              facilities={facilities}
               freshIds={freshIds}
               selectedId={selectedId}
               onSelect={setSelectedId}
@@ -119,10 +137,10 @@ function LiveMapPage() {
         </div>
 
         <div className="absolute bottom-6 left-3 z-[900] hidden sm:block">
-          <MapLegend />
+          <MapLegend showFacilities={showFacilities} />
         </div>
         <div className="absolute left-3 top-3 z-[900] sm:hidden">
-          <MapLegend defaultOpen={false} />
+          <MapLegend defaultOpen={false} showFacilities={showFacilities} />
         </div>
 
         {selected && <IncidentPanel incident={selected} onClose={() => setSelectedId(null)} />}

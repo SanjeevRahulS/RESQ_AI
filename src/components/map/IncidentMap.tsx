@@ -4,12 +4,13 @@ import "react-leaflet-cluster/dist/assets/MarkerCluster.css";
 import "react-leaflet-cluster/dist/assets/MarkerCluster.Default.css";
 import L from "leaflet";
 import { forwardRef, useImperativeHandle, useRef } from "react";
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 
 import { DEFAULT_CENTER, SEVERITY_LABEL, TYPE_LABEL } from "@/lib/incidents/constants";
 import type { Incident } from "@/lib/incidents/types";
-import { severityIcon } from "./severityIcon";
+import { FACILITY_LABEL, type Facility } from "@/lib/facilities/constants";
+import { facilityIcon, severityIcon } from "./severityIcon";
 
 export interface IncidentMapHandle {
   fitAll: () => void;
@@ -18,13 +19,15 @@ export interface IncidentMapHandle {
 
 interface Props {
   incidents: Incident[];
+  /** Shelters/hospitals layer; pass an empty list when the layer is off. */
+  facilities: Facility[];
   freshIds: Set<string>;
   selectedId: string | null;
   onSelect: (id: string) => void;
 }
 
 const IncidentMap = forwardRef<IncidentMapHandle, Props>(function IncidentMap(
-  { incidents, freshIds, selectedId, onSelect },
+  { incidents, facilities, freshIds, selectedId, onSelect },
   ref,
 ) {
   const mapRef = useRef<L.Map | null>(null);
@@ -97,6 +100,29 @@ const IncidentMap = forwardRef<IncidentMapHandle, Props>(function IncidentMap(
           );
         })}
       </MarkerClusterGroup>
+      {facilities.map((f) => (
+        <Marker
+          key={f.id}
+          position={[f.latitude, f.longitude]}
+          icon={facilityIcon(f.type)}
+          title={`${FACILITY_LABEL[f.type]}: ${f.name}`}
+          alt={`${FACILITY_LABEL[f.type]}: ${f.name}`}
+          zIndexOffset={-500}
+        >
+          <Popup>
+            <strong>{f.name}</strong>
+            <br />
+            {FACILITY_LABEL[f.type]}
+            {f.capacity != null && ` · capacity ${f.capacity}`}
+            {f.contact && (
+              <>
+                <br />
+                Contact: {f.contact}
+              </>
+            )}
+          </Popup>
+        </Marker>
+      ))}
     </MapContainer>
   );
 });

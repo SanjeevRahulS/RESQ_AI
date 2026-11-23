@@ -14,6 +14,78 @@ export type Database = {
   }
   public: {
     Tables: {
+      advisories: {
+        Row: {
+          area: string | null
+          created_at: string
+          created_by: string
+          expires_at: string | null
+          id: string
+          message: string
+          severity: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          area?: string | null
+          created_at?: string
+          created_by: string
+          expires_at?: string | null
+          id?: string
+          message: string
+          severity?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          area?: string | null
+          created_at?: string
+          created_by?: string
+          expires_at?: string | null
+          id?: string
+          message?: string
+          severity?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      facilities: {
+        Row: {
+          capacity: number | null
+          contact: string | null
+          created_at: string
+          id: string
+          latitude: number
+          longitude: number
+          name: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          capacity?: number | null
+          contact?: string | null
+          created_at?: string
+          id?: string
+          latitude: number
+          longitude: number
+          name: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          capacity?: number | null
+          contact?: string | null
+          created_at?: string
+          id?: string
+          latitude?: number
+          longitude?: number
+          name?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       incident_events: {
         Row: {
           actor: string
@@ -82,6 +154,7 @@ export type Database = {
           status: string
           summary: string | null
           suspected_duplicate_of: string | null
+          tracking_code: string | null
           updated_at: string
         }
         Insert: {
@@ -110,6 +183,7 @@ export type Database = {
           status?: string
           summary?: string | null
           suspected_duplicate_of?: string | null
+          tracking_code?: string | null
           updated_at?: string
         }
         Update: {
@@ -138,6 +212,7 @@ export type Database = {
           status?: string
           summary?: string | null
           suspected_duplicate_of?: string | null
+          tracking_code?: string | null
           updated_at?: string
         }
         Relationships: [

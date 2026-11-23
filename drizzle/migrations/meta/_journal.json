@@ -8,6 +8,13 @@
       "when": 1795400534778,
       "tag": "0000_seed_demo_incidents",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795403865733,
+      "tag": "0001_tracking_advisories_facilities",
+      "breakpoints": true
     }
   ]
 }

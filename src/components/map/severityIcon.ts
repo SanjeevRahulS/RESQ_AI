@@ -5,6 +5,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 import { SEVERITY_ICON, SEVERITY_VAR } from "@/components/incidents/SeverityBadge";
 import type { Severity } from "@/lib/incidents/constants";
+import { FACILITY_ICON } from "@/components/facilities/FacilityIcon";
+import type { FacilityType } from "@/lib/facilities/constants";
 
 const cache = new Map<string, L.DivIcon>();
 
@@ -32,4 +34,24 @@ export function reporterPinIcon(): L.DivIcon {
     iconSize: [34, 34],
     iconAnchor: [17, 17],
   });
+}
+
+const facilityCache = new Map<FacilityType, L.DivIcon>();
+
+/** Round light marker with a dark glyph — distinct from the square severity pins. */
+export function facilityIcon(type: FacilityType): L.DivIcon {
+  const hit = facilityCache.get(type);
+  if (hit) return hit;
+  const svg = renderToStaticMarkup(
+    createElement(FACILITY_ICON[type], { size: 15, strokeWidth: 2.25, "aria-hidden": true }),
+  );
+  const icon = L.divIcon({
+    className: "resq-marker",
+    html: `<span class="resq-facility">${svg}</span>`,
+    iconSize: [28, 28],
+    iconAnchor: [14, 14],
+    popupAnchor: [0, -14],
+  });
+  facilityCache.set(type, icon);
+  return icon;
 }

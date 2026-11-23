@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { FileText, LayoutDashboard, LogIn, LogOut, Map, Phone, Shield } from "lucide-react";
+import { FileText, LayoutDashboard, LogIn, LogOut, Map, Phone, Search, Shield } from "lucide-react";
 
 import { useSessionUser } from "@/hooks/useSession";
 import { useSignOut } from "@/hooks/useSignOut";
@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 const NAV = [
   { to: "/", label: "Report Emergency", short: "Report", icon: FileText },
+  { to: "/track", label: "Track a report", short: "Track", icon: Search },
   { to: "/map", label: "Live Map", short: "Map", icon: Map },
   { to: "/dashboard", label: "Command Dashboard", short: "Dashboard", icon: LayoutDashboard },
 ] as const;

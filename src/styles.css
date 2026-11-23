@@ -199,6 +199,18 @@
   color: var(--color-background);
 }
 
+.resq-facility {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  border: 2px solid var(--color-background);
+  box-shadow: 0 0 0 1px var(--color-foreground);
+  background: var(--color-foreground);
+  color: var(--color-background);
+}
+
 .resq-pin--fresh {
   animation: resq-pulse 1.2s ease-out 4;
 }
