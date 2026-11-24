@@ -16,3 +16,4 @@
 - [x] Safety guidance checklist by incident type after submit, with 112 / 108 / 101 links
 - [x] Public advisories: admin create/edit/expire; banner on every page incl. Live Map
 - [x] Shelters & hospitals: facilities table, toggleable Live Map layer, admin add/edit, 8 Chennai samples
+- [x] Public emergency contacts page (/emergency): real India + Chennai numbers, RESQ shield, Track a report link, no sign-in; header, top bar and footer entry points

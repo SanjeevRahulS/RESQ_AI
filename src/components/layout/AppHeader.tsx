@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { FileText, LayoutDashboard, LogIn, LogOut, Map, Phone, Search, Shield } from "lucide-react";
+import { FileText, LayoutDashboard, LogIn, LogOut, Map, Phone, PhoneCall, Search, Shield } from "lucide-react";
 
 import { useSessionUser } from "@/hooks/useSession";
 import { useSignOut } from "@/hooks/useSignOut";
@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 const NAV = [
   { to: "/", label: "Report Emergency", short: "Report", icon: FileText },
+  { to: "/emergency", label: "Helpline", short: "Helpline", icon: PhoneCall },
   { to: "/track", label: "Track a report", short: "Track", icon: Search },
   { to: "/map", label: "Live Map", short: "Map", icon: Map },
   { to: "/dashboard", label: "Command Dashboard", short: "Dashboard", icon: LayoutDashboard },
@@ -35,6 +36,8 @@ export function AppHeader() {
           <a href="tel:108" className="underline-offset-2 hover:underline">Ambulance 108</a>
           <span aria-hidden>·</span>
           <a href="tel:101" className="underline-offset-2 hover:underline">Fire 101</a>
+          <span aria-hidden>·</span>
+          <Link to="/emergency" className="underline-offset-2 hover:underline">All numbers</Link>
         </p>
       </div>
       <div className="mx-auto flex h-14 max-w-[1600px] items-center gap-3 px-3 sm:px-6">
@@ -42,10 +45,10 @@ export function AppHeader() {
           <Shield aria-hidden className="size-5 fill-primary text-primary" />
           <span className="whitespace-nowrap text-lg font-bold tracking-wide">RESQ</span>
         </Link>
-        <nav aria-label="Main" className="ml-auto">
-          <ul className="flex items-center gap-1">
+        <nav aria-label="Main" className="ml-auto min-w-0 max-w-full overflow-x-auto sm:overflow-visible">
+          <ul className="flex w-max items-center gap-1">
             {NAV.map(({ to, label, short, icon: Icon }) => (
-              <li key={to}>
+              <li key={to} className="shrink-0">
                 <Link
                   to={to}
                   activeOptions={{ exact: true }}
@@ -60,7 +63,7 @@ export function AppHeader() {
                 </Link>
               </li>
             ))}
-            <li>
+            <li className="shrink-0">
               {user ? (
                 <button type="button" onClick={() => void signOut()} className={item} aria-label={`Sign out ${user.email ?? ""}`}>
                   <LogOut aria-hidden className="size-4" />

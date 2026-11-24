@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 const LAST_UPDATED = "2026-11-23 08:00 IST";
 
 export function AppFooter() {
@@ -10,6 +12,11 @@ export function AppFooter() {
         </div>
         <nav aria-label="Footer">
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
+            <li>
+              <Link to="/emergency" className="rounded-sm hover:text-foreground">
+                Emergency numbers
+              </Link>
+            </li>
             <li>
               <details>
                 <summary className="cursor-pointer rounded-sm hover:text-foreground">About</summary>
