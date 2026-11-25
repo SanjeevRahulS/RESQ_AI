@@ -130,6 +130,7 @@ export async function runDuplicateCheck(admin: Admin, reportId: string): Promise
     .neq("status", "resolved")
     .neq("id", report.id)
     .is("duplicate_of", null)
+    .is("deleted_at", null)
     .gte("created_at", since)
     .gte("latitude", report.latitude - 0.004)
     .lte("latitude", report.latitude + 0.004)

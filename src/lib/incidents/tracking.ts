@@ -43,6 +43,24 @@ export function publicStatus(status: IncidentStatus | string): PublicStatus {
   return "received";
 }
 
+/** Resolves the public tracking state for a report and its optional merged original. */
+export function resolveTrackingState(
+  report: { status: string; updated_at: string; deleted_at: string | null },
+  original?: { status: string; updated_at: string; deleted_at: string | null } | null,
+): { status: PublicStatus; updatedAt: string; deleted: boolean; deletedAt: string | null } {
+  const deletedAt = report.deleted_at ?? original?.deleted_at ?? null;
+  const status = original ? original.status : report.status;
+  let updatedAt = report.updated_at;
+  if (original && original.updated_at > updatedAt) updatedAt = original.updated_at;
+  if (deletedAt && deletedAt > updatedAt) updatedAt = deletedAt;
+  return {
+    status: publicStatus(status),
+    updatedAt,
+    deleted: deletedAt != null,
+    deletedAt,
+  };
+}
+
 /**
  * A neighbourhood-level description: drops address parts containing digits (house/street numbers,
  * PIN codes) and keeps the last two remaining parts. Falls back to coordinates rounded to ~1 km.

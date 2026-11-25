@@ -21,6 +21,7 @@ export const listIncidents = createServerFn({ method: "GET" })
   const { data, error } = await context.supabase
     .from("incidents")
     .select("*")
+    .is("deleted_at", null)
     .order("created_at", { ascending: false })
     .limit(1000);
   if (error) {
@@ -36,8 +37,8 @@ export const getIncidentDetail = createServerFn({ method: "GET" })
   .handler(async ({ data, context }): Promise<IncidentDetail> => {
     const db = context.supabase;
     const [incidentRes, dupRes, eventsRes] = await Promise.all([
-      db.from("incidents").select("*").eq("id", data.id).single(),
-      db.from("incidents").select("*").eq("duplicate_of", data.id).order("created_at"),
+      db.from("incidents").select("*").eq("id", data.id).is("deleted_at", null).single(),
+      db.from("incidents").select("*").eq("duplicate_of", data.id).is("deleted_at", null).order("created_at"),
       db
         .from("incident_events")
         .select("*")

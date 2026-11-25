@@ -9,6 +9,7 @@ import {
   generateTrackingCode,
   normalizeTrackingCode,
   publicStatus,
+  resolveTrackingState,
 } from "@/lib/incidents/tracking";
 
 describe("tracking codes", () => {
@@ -44,6 +45,27 @@ describe("public report status", () => {
     expect(publicStatus("verified")).toBe("verified");
     expect(publicStatus("dispatched")).toBe("dispatched");
     expect(publicStatus("resolved")).toBe("resolved");
+  });
+
+  it("marks a deleted report or a report merged into a deleted original as deleted", () => {
+    const removed = resolveTrackingState({
+      status: "verified",
+      updated_at: "2026-11-25T08:00:00Z",
+      deleted_at: "2026-11-25T09:00:00Z",
+    });
+    expect(removed).toEqual({
+      status: "verified",
+      updatedAt: "2026-11-25T09:00:00Z",
+      deleted: true,
+      deletedAt: "2026-11-25T09:00:00Z",
+    });
+
+    const linkedToRemoved = resolveTrackingState(
+      { status: "new", updated_at: "2026-11-25T07:00:00Z", deleted_at: null },
+      { status: "dispatched", updated_at: "2026-11-25T08:00:00Z", deleted_at: "2026-11-25T09:30:00Z" },
+    );
+    expect(linkedToRemoved.deleted).toBe(true);
+    expect(linkedToRemoved.deletedAt).toBe("2026-11-25T09:30:00Z");
   });
 });
 

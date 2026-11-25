@@ -13,10 +13,10 @@ import {
   generalArea,
   generateTrackingCode,
   normalizeTrackingCode,
-  publicStatus,
+  resolveTrackingState,
   type PublicStatus,
 } from "./tracking";
-import { requireStaff } from "@/lib/auth/staff-middleware";
+import { requireAdmin, requireStaff } from "@/lib/auth/staff-middleware";
 import type { Database } from "@/integrations/supabase/types";
 
 type IncidentUpdate = Database["public"]["Tables"]["incidents"]["Update"];
@@ -192,6 +192,8 @@ export interface TrackReportResult {
   status: PublicStatus;
   updatedAt: string;
   area: string | null;
+  deleted: boolean;
+  deletedAt: string | null;
 }
 
 /**
@@ -206,7 +208,7 @@ export const trackReport = createServerFn({ method: "GET" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: report, error } = await supabaseAdmin
       .from("incidents")
-      .select("status, updated_at, address_text, latitude, longitude, duplicate_of")
+      .select("status, updated_at, deleted_at, address_text, latitude, longitude, duplicate_of")
       .eq("tracking_code", code)
       .maybeSingle();
     if (error) {
@@ -215,23 +217,19 @@ export const trackReport = createServerFn({ method: "GET" })
     }
     if (!report) return null;
 
-    let status = report.status;
-    let updatedAt = report.updated_at;
+    let original: { status: string; updated_at: string; deleted_at: string | null } | null = null;
     if (report.duplicate_of) {
-      const { data: original } = await supabaseAdmin
+      const { data: origRow } = await supabaseAdmin
         .from("incidents")
-        .select("status, updated_at")
+        .select("status, updated_at, deleted_at")
         .eq("id", report.duplicate_of)
         .maybeSingle();
-      if (original) {
-        status = original.status;
-        updatedAt = original.updated_at > updatedAt ? original.updated_at : updatedAt;
-      }
+      if (origRow) original = origRow;
     }
+    const state = resolveTrackingState(report, original);
     return {
       code,
-      status: publicStatus(status),
-      updatedAt,
+      ...state,
       area: generalArea(report.address_text, report.latitude, report.longitude),
     };
   });
@@ -346,6 +344,39 @@ export const resolveReview = createServerFn({ method: "POST" })
       from_value: "needs_review",
       to_value: "new",
       note: "Kept as a separate incident",
+    });
+    return { ok: true };
+  });
+
+/** Admin-only: soft-deletes a report so it leaves active views while its tracking code still responds. */
+export const deleteIncident = createServerFn({ method: "POST" })
+  .middleware([requireAdmin])
+  .inputValidator((input: unknown) => z.object({ id: z.string().uuid() }).parse(input))
+  .handler(async ({ data, context }) => {
+    const actor = context.actor;
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { logEvent } = await import("./dedupe.server");
+
+    const { data: current, error } = await supabaseAdmin
+      .from("incidents")
+      .select("id, status, deleted_at")
+      .eq("id", data.id)
+      .single();
+    if (error || !current || current.deleted_at) throw new Error("Incident not found.");
+
+    const { error: delErr } = await supabaseAdmin
+      .from("incidents")
+      .update({ deleted_at: new Date().toISOString(), deleted_by: actor })
+      .eq("id", data.id);
+    if (delErr) throw new Error("Could not delete report. Please try again.");
+
+    await logEvent(supabaseAdmin, {
+      incident_id: data.id,
+      actor,
+      event_type: "deleted",
+      from_value: current.status,
+      to_value: "deleted",
+      note: "Report removed by admin",
     });
     return { ok: true };
   });

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Check, Loader2, MapPin, Search } from "lucide-react";
+import { AlertTriangle, Check, Loader2, MapPin, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { trackReport } from "@/lib/incidents/incidents.functions";
+import { trackReport, type TrackReportResult } from "@/lib/incidents/incidents.functions";
 import { PUBLIC_STATUSES, PUBLIC_STATUS_LABEL, normalizeTrackingCode } from "@/lib/incidents/tracking";
 import { cn } from "@/lib/utils";
 
@@ -119,11 +119,7 @@ function TrackPage() {
   );
 }
 
-function TrackResult({
-  result,
-}: {
-  result: { code: string; status: (typeof PUBLIC_STATUSES)[number]; updatedAt: string; area: string | null };
-}) {
+function TrackResult({ result }: { result: TrackReportResult }) {
   const current = PUBLIC_STATUSES.indexOf(result.status);
   return (
     <section className="rounded-md border bg-surface p-5" aria-labelledby="track-result-heading">
@@ -131,29 +127,51 @@ function TrackResult({
       <h2 id="track-result-heading" className="font-mono text-2xl">
         {result.code}
       </h2>
-      <p className="mt-3 text-lg">
-        Status: <span className="font-semibold">{PUBLIC_STATUS_LABEL[result.status]}</span>
-      </p>
+      {result.deleted ? (
+        <div className="mt-3 space-y-2">
+          <p className="flex items-center gap-2 text-lg">
+            <AlertTriangle aria-hidden className="size-5 text-sev-high" />
+            Status: <span className="font-semibold">Removed</span>
+          </p>
+          <p className="text-sm text-muted-foreground">
+            This report was removed by command staff. If the emergency is still ongoing,{" "}
+            <Link to="/" className="text-primary underline-offset-2 hover:underline">
+              submit a new report
+            </Link>{" "}
+            or call{" "}
+            <a href="tel:112" className="text-primary underline-offset-2 hover:underline">
+              112
+            </a>
+            .
+          </p>
+        </div>
+      ) : (
+        <>
+          <p className="mt-3 text-lg">
+            Status: <span className="font-semibold">{PUBLIC_STATUS_LABEL[result.status]}</span>
+          </p>
 
-      <ol className="mt-4 grid grid-cols-4 gap-2" aria-label="Progress">
-        {PUBLIC_STATUSES.map((s, i) => {
-          const done = i <= current;
-          return (
-            <li key={s} className="space-y-1.5" aria-current={i === current ? "step" : undefined}>
-              <span className={cn("block h-1.5 rounded-sm", done ? "bg-primary" : "bg-border")} />
-              <span className={cn("flex items-center gap-1 text-xs", done ? "text-foreground" : "text-muted-foreground")}>
-                {done && <Check aria-hidden className="size-3" />}
-                {PUBLIC_STATUS_LABEL[s]}
-              </span>
-            </li>
-          );
-        })}
-      </ol>
+          <ol className="mt-4 grid grid-cols-4 gap-2" aria-label="Progress">
+            {PUBLIC_STATUSES.map((s, i) => {
+              const done = i <= current;
+              return (
+                <li key={s} className="space-y-1.5" aria-current={i === current ? "step" : undefined}>
+                  <span className={cn("block h-1.5 rounded-sm", done ? "bg-primary" : "bg-border")} />
+                  <span className={cn("flex items-center gap-1 text-xs", done ? "text-foreground" : "text-muted-foreground")}>
+                    {done && <Check aria-hidden className="size-3" />}
+                    {PUBLIC_STATUS_LABEL[s]}
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+        </>
+      )}
 
       <dl className="mt-5 grid gap-3 border-t pt-4 text-sm sm:grid-cols-2">
         <div>
-          <dt className="label-caps">Last update</dt>
-          <dd >{new Date(result.updatedAt).toLocaleString()}</dd>
+          <dt className="label-caps">{result.deleted ? "Removed on" : "Last update"}</dt>
+          <dd>{new Date(result.deletedAt ?? result.updatedAt).toLocaleString()}</dd>
         </div>
         <div>
           <dt className="label-caps">General area</dt>

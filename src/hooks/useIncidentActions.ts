@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 
-import { resolveReview, updateIncident } from "@/lib/incidents/incidents.functions";
+import { deleteIncident, resolveReview, updateIncident } from "@/lib/incidents/incidents.functions";
 import { incidentKeys } from "@/lib/incidents/queries";
 import type { IncidentStatus, Severity } from "@/lib/incidents/constants";
 
@@ -16,6 +16,7 @@ export function useIncidentActions() {
   const queryClient = useQueryClient();
   const update = useServerFn(updateIncident);
   const review = useServerFn(resolveReview);
+  const remove = useServerFn(deleteIncident);
   const refresh = () => queryClient.invalidateQueries({ queryKey: incidentKeys.all });
 
   const updateMutation = useMutation({
@@ -37,5 +38,14 @@ export function useIncidentActions() {
     onError: (err) => toast.error(errorMessage(err)),
   });
 
-  return { updateMutation, reviewMutation };
+  const deleteMutation = useMutation({
+    mutationFn: (vars: { id: string }) => remove({ data: vars }),
+    onSuccess: () => {
+      toast.success("Report deleted");
+      return refresh();
+    },
+    onError: (err) => toast.error(errorMessage(err)),
+  });
+
+  return { updateMutation, reviewMutation, deleteMutation };
 }

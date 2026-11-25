@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { AlertTriangle, Clock, GitMerge, Loader2, MapPin, Phone, Split, Users } from "lucide-react";
+import { AlertTriangle, Clock, GitMerge, Loader2, MapPin, Phone, Split, Trash2, Users } from "lucide-react";
 import { format } from "date-fns";
 
 import { IncidentTypeIcon } from "@/components/incidents/IncidentTypeIcon";
@@ -19,6 +20,7 @@ import { StatusWorkflow } from "./StatusWorkflow";
 
 interface Props {
   incidentId: string | null;
+  isAdmin?: boolean;
   onClose: () => void;
   onOpenIncident: (id: string) => void;
 }
@@ -65,14 +67,19 @@ function LinkedRow({ incident, onOpen }: { incident: Incident; onOpen: () => voi
   );
 }
 
-export function IncidentDetailSheet({ incidentId, onClose, onOpenIncident }: Props) {
+export function IncidentDetailSheet({ incidentId, isAdmin = false, onClose, onOpenIncident }: Props) {
   const { data, isLoading, isError, error } = useQuery({
     ...incidentDetailQuery(incidentId ?? ""),
     enabled: Boolean(incidentId),
   });
-  const { updateMutation, reviewMutation } = useIncidentActions();
+  const { updateMutation, reviewMutation, deleteMutation } = useIncidentActions();
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const incident = data?.incident;
   const pendingStatus = updateMutation.isPending ? (updateMutation.variables?.status ?? null) : null;
+
+  useEffect(() => {
+    setConfirmDelete(false);
+  }, [incidentId]);
 
   return (
     <Sheet open={Boolean(incidentId)} onOpenChange={(open) => !open && onClose()}>
@@ -274,6 +281,48 @@ export function IncidentDetailSheet({ incidentId, onClose, onOpenIncident }: Pro
               <Section title="Activity log">
                 <EventLog events={data.events} />
               </Section>
+
+              {isAdmin && (
+                <section className="space-y-3 border-t pt-5">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Danger zone</h3>
+                  {confirmDelete ? (
+                    <div className="space-y-3 rounded-md border border-sev-critical/50 bg-sev-critical/10 p-4">
+                      <p className="text-sm">
+                        Remove this report from the dashboard and map? Its tracking code will show that the report was removed.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          disabled={deleteMutation.isPending}
+                          onClick={() =>
+                            deleteMutation.mutate({ id: incident.id }, { onSuccess: () => onClose() })
+                          }
+                        >
+                          {deleteMutation.isPending ? (
+                            <Loader2 aria-hidden className="size-4 animate-spin" />
+                          ) : (
+                            <Trash2 aria-hidden className="size-4" />
+                          )}
+                          Confirm delete
+                        </Button>
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          disabled={deleteMutation.isPending}
+                          onClick={() => setConfirmDelete(false)}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <Button variant="destructive" size="sm" onClick={() => setConfirmDelete(true)}>
+                      <Trash2 aria-hidden className="size-4" /> Delete report
+                    </Button>
+                  )}
+                </section>
+              )}
             </div>
           </div>
         )}

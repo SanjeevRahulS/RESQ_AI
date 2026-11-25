@@ -134,6 +134,8 @@ export type Database = {
           confidence: number | null
           contact_phone: string | null
           created_at: string
+          deleted_at: string | null
+          deleted_by: string | null
           duplicate_of: string | null
           duplicate_reason: string | null
           duplicate_similarity: number | null
@@ -163,6 +165,8 @@ export type Database = {
           confidence?: number | null
           contact_phone?: string | null
           created_at?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
           duplicate_of?: string | null
           duplicate_reason?: string | null
           duplicate_similarity?: number | null
@@ -192,6 +196,8 @@ export type Database = {
           confidence?: number | null
           contact_phone?: string | null
           created_at?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
           duplicate_of?: string | null
           duplicate_reason?: string | null
           duplicate_similarity?: number | null

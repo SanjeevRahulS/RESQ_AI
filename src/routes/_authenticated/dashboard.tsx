@@ -101,7 +101,7 @@ function DashboardPage() {
 
       {isAdmin && <TeamAccessPanel />}
 
-      <IncidentDetailSheet incidentId={openId} onClose={() => setOpenId(null)} onOpenIncident={setOpenId} />
+      <IncidentDetailSheet incidentId={openId} isAdmin={isAdmin} onClose={() => setOpenId(null)} onOpenIncident={setOpenId} />
 
       <div aria-live="polite" role="status" className="sr-only">
         {announcement}
